@@ -31,10 +31,21 @@ public class FussballDeParser {
 		return url;
 	}
 
+	private static void printTeams(String clubUrl) throws IOException {
+		Document doc = Jsoup.connect(clubUrl).get();
+		Elements teams = doc.select(".egmFixturesLink[href]");
+		System.out.println("Teams:");
+		for (Element team: teams.select(".egmFixturesLink")){
+			System.out.println("name: " + team.text());
+			System.out.println("teamlink: " + team.attr("href"));
+		}
+	}
+
+
 	public static void main(String[] args) throws IOException {
 
 		// Format searchURL
-		String url = formatSearchURL("Bebertal");
+		String url = formatSearchURL("Bebertaler SV");
 
 		// System.out.println(url);
 		Document doc = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
@@ -43,11 +54,12 @@ public class FussballDeParser {
 		for (Element el: elements){
 			if (el.toString().indexOf("r=")>0){
 				// Vereinsnamen umsetzen
-				System.out.println("Verein");
 				System.out.println("name: " + el.text());
 				// link auf die Vereinseite Filtern
+				//String clubUrl = URLDecoder.decode(el.toString().substring(el.toString().indexOf("r=")+2, el.toString().indexOf("\" onclick")), "UTF-8");
 				String clubUrl = URLDecoder.decode(el.toString().substring(el.toString().indexOf("r=")+2, el.toString().indexOf("\" onclick")), "UTF-8");
 				System.out.println("link: " + clubUrl);
+				printTeams(clubUrl);
 			}
 		}
 	}
