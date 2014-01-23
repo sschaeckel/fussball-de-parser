@@ -1,6 +1,7 @@
 package com.schaeckel.parser;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -15,11 +16,9 @@ import org.jsoup.select.Elements;
 
 public class FussballDeParser {
 	
-	public static void main(String[] args) throws IOException {
-
-		String baseURL = "http://suche.fussball.de/to/fbde/all";
-		String searchString = "MSV Börde";
+	private static String formatSearchURL(String searchString) throws UnsupportedEncodingException {
 		
+		String baseURL = ParserURLs.SEARCH_URL.getValue();
 		Map<String, String> params = new HashMap<String, String>(1);
 		params.put("q", URLEncoder.encode(searchString, "UTF-8"));
 		String url = baseURL;
@@ -29,16 +28,27 @@ public class FussballDeParser {
 			url += value.getKey()+"="+value.getValue();
 			i++;
 		}
+		return url;
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		// Format searchURL
+		String url = formatSearchURL("Bebertal");
+
 		// System.out.println(url);
 		Document doc = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
 		Elements elements = doc.select("td.search-result-content[id=fbde_vereine]");
 		elements = elements.select("a[href]");
 		for (Element el: elements){
-			// Vereinsnamen umsetzen
-			System.out.println(el.text());
-			// link auf die Vereinseite Filtern
-			String clubUrl = URLDecoder.decode(el.toString().substring(el.toString().indexOf("r=")+2, el.toString().indexOf("\" onclick")), "UTF-8");
-			System.out.println(clubUrl);
+			if (el.toString().indexOf("r=")>0){
+				// Vereinsnamen umsetzen
+				System.out.println("Verein");
+				System.out.println("name: " + el.text());
+				// link auf die Vereinseite Filtern
+				String clubUrl = URLDecoder.decode(el.toString().substring(el.toString().indexOf("r=")+2, el.toString().indexOf("\" onclick")), "UTF-8");
+				System.out.println("link: " + clubUrl);
+			}
 		}
 	}
 
