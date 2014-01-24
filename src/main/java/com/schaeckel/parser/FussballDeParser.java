@@ -45,7 +45,7 @@ public class FussballDeParser {
 	public static void main(String[] args) throws IOException {
 
 		// Format searchURL
-		String url = formatSearchURL("Bebertaler SV");
+		String url = formatSearchURL("süplingen");
 
 		// System.out.println(url);
 		Document doc = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
