@@ -5,6 +5,7 @@ public class Team {
 	private String name;
 	private String url;
 
+	public Team(){ }
 	public Team(String name, String url) {
 		this.name = name;
 		this.url = url;

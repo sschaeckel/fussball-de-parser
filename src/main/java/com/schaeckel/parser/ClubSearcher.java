@@ -21,8 +21,6 @@ import com.schaeckel.parser.model.Club;
 
 public class ClubSearcher{
 
-	private static final String BASE_URL = "http://suche.fussball.de/to/fbde/vereine";
-	
 	private ClubSearcher() {}
 	
 	public static List<Club> find(String search) {
@@ -57,7 +55,7 @@ public class ClubSearcher{
 		
 		Map<String, String> params = new HashMap<String, String>(1);
 		params.put("q", URLEncoder.encode(searchString, "UTF-8"));
-		String url = BASE_URL;
+		String url = ParserURLs.SEARCH_URL.getValue();
 		int i = 0;
 		for (Entry<String, String> value: params.entrySet()){
 			url += (i==0?"?":"&");
