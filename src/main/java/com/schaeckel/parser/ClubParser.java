@@ -19,9 +19,9 @@ import org.jsoup.select.Elements;
 
 import com.schaeckel.parser.model.Club;
 
-public class ClubSearcher{
+public class ClubParser{
 
-	private ClubSearcher() {}
+	private ClubParser() {}
 	
 	public static List<Club> find(String search) {
 		List<Club> clubs = new ArrayList<Club>(0);

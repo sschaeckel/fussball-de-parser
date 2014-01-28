@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 
 import com.schaeckel.parser.model.Team;
 
-public class TeamSearcher {
+public class TeamParser {
 
 	public static List<Team> find(String url) {
 		List<Team> teams = new ArrayList<Team>(0);
